@@ -58,7 +58,7 @@ export function VozColaborador() {
         <StatCard label="Resolución media" value={3.2} decimals={1} suffix=" días" icon={Clock} delta="-0.8" />
       </motion.div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         {/* Feed de reconocimientos */}
         <div className="lg:col-span-2">
           <Card>

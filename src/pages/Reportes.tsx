@@ -86,7 +86,7 @@ export function Reportes() {
       {/* Builder */}
       <Card>
         <CardHeader title="Constructor de reporte" subtitle="Selecciona campos, filtros y formato" action={<Sparkles size={16} className="text-accent" />} />
-        <div className="grid gap-6 p-5 pt-4 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 p-5 pt-4 lg:grid-cols-3">
           {/* Campos */}
           <div className="lg:col-span-2">
             <p className="mb-2.5 font-mono text-[10.5px] font-medium tracking-[0.16em] text-faint uppercase">Campos a incluir</p>
@@ -152,7 +152,7 @@ export function Reportes() {
           <h2 className="text-[15px] font-semibold text-fg">Reportes guardados</h2>
           <span className="font-mono text-[12px] text-faint">{guardados.length}</span>
         </div>
-        <motion.div variants={container} initial="hidden" animate="show" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {guardados.map((r) => (
             <motion.div key={r.nombre} variants={fadeUp}>
               <Card hover className="group flex h-full flex-col p-4">

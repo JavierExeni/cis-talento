@@ -45,7 +45,7 @@ export function Encuestas() {
         <StatCard label="Campañas activas" value={activas} icon={ClipboardList} />
       </motion.div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         <motion.div variants={fadeUp} initial="hidden" animate="show" className="lg:col-span-2">
           <Card>
             <CardHeader title="Evolución del eNPS" subtitle="Últimos 6 meses" action={<Badge variant="success" dot>+14 pts</Badge>} />
@@ -78,7 +78,7 @@ export function Encuestas() {
         </motion.div>
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         {/* Campañas */}
         <div className="lg:col-span-2">
           <Card>

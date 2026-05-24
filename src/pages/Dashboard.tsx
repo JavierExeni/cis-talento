@@ -68,7 +68,7 @@ export function Dashboard() {
       </motion.div>
 
       {/* Trend + ausentes */}
-      <motion.div variants={container} initial="hidden" animate="show" className="grid gap-5 lg:grid-cols-3">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         <motion.div variants={fadeUp} className="lg:col-span-2">
           <Card>
             <CardHeader
@@ -102,7 +102,7 @@ export function Dashboard() {
       </motion.div>
 
       {/* Distribución + actividad */}
-      <motion.div variants={container} initial="hidden" animate="show" className="grid gap-5 lg:grid-cols-3">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         <motion.div variants={fadeUp} className="lg:col-span-2">
           <Card className="h-full">
             <CardHeader title="Distribución por área" subtitle="Colaboradores por departamento" />

@@ -73,7 +73,7 @@ export function Desempeno() {
         <StatCard label="Participación" value={91} suffix="%" icon={Users} delta="+5%" />
       </motion.div>
 
-      <div className="grid gap-5 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-5">
         {/* Radar 360 */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" className="lg:col-span-3">
           <Card className="h-full">
@@ -82,7 +82,7 @@ export function Desempeno() {
               subtitle="Autoevaluación vs equipo vs jefatura"
               action={<Badge variant="success" dot>4.2 / 5 prom.</Badge>}
             />
-            <div className="grid items-center gap-2 p-3 lg:grid-cols-5">
+            <div className="grid grid-cols-1 items-center gap-2 p-3 lg:grid-cols-5">
               <div className="lg:col-span-3">
                 <ResponsiveContainer width="100%" height={336}>
                   <RadarChart data={competencias} outerRadius="80%">
@@ -121,7 +121,7 @@ export function Desempeno() {
               </div>
             </div>
 
-            <div className="grid gap-4 border-t border-line p-5 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 border-t border-line p-5 sm:grid-cols-2">
               <div>
                 <p className="mb-2.5 flex items-center gap-1.5 text-[12px] font-medium text-success">
                   <TrendingUp size={14} /> Fortalezas

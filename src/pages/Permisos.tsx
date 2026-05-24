@@ -57,7 +57,7 @@ export function Permisos() {
         })}
       </motion.div>
 
-      <div className="grid gap-5 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         {/* Aprobaciones */}
         <div className="lg:col-span-2">
           <Card>
