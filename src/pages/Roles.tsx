@@ -102,7 +102,7 @@ export function Roles() {
           <table className="w-full border-collapse">
             <thead>
               <tr>
-                <th className="sticky left-0 bg-card pr-4 pb-3 text-left text-[12px] font-medium tracking-wide text-faint uppercase">
+                <th className="sticky left-0 z-20 border-r border-line bg-card py-1 pr-4 pl-1 pb-3 text-left text-[12px] font-medium tracking-wide text-faint uppercase">
                   Módulo
                 </th>
                 {roles.map((r) => (
@@ -118,7 +118,7 @@ export function Roles() {
             <tbody>
               {modulos.map((m) => (
                 <tr key={m} className="border-t border-line-soft">
-                  <td className="sticky left-0 bg-card py-3 pr-4 text-[13px] font-medium whitespace-nowrap text-muted">{m}</td>
+                  <td className="sticky left-0 z-10 border-r border-line bg-card py-3 pr-4 pl-1 text-[13px] font-medium whitespace-nowrap text-muted">{m}</td>
                   {roles.map((r) => {
                     const enabled = matrix[r.id]?.[m] ?? []
                     return (
