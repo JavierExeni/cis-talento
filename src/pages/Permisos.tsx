@@ -74,14 +74,16 @@ export function Permisos() {
               {requests.slice(0, 11).map((r) => (
                 <div
                   key={r.id}
-                  className="flex items-center gap-3.5 border-t border-line-soft px-5 py-3 transition-colors hover:bg-white/[0.02]"
+                  className="flex items-center gap-3 border-t border-line-soft px-4 py-3 transition-colors hover:bg-white/[0.02] sm:gap-3.5 sm:px-5"
                 >
                   <Avatar iniciales={r.iniciales} gradient={r.avatar} size={36} />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[13.5px] font-medium text-fg">{r.empleado}</p>
                     <div className="mt-0.5 flex items-center gap-2">
-                      <span className="text-[12px] text-faint">{r.tipo}</span>
-                      <CountryTag pais={r.pais} />
+                      <span className="truncate text-[12px] text-faint">{r.tipo}</span>
+                      <span className="hidden shrink-0 sm:inline-flex">
+                        <CountryTag pais={r.pais} />
+                      </span>
                     </div>
                   </div>
                   <div className="hidden text-right sm:block">
@@ -91,7 +93,7 @@ export function Permisos() {
                     <p className="text-[11px] text-faint">{r.dias} día(s)</p>
                   </div>
 
-                  <div className="w-[120px] text-right">
+                  <div className="w-auto shrink-0 text-right sm:w-[120px]">
                     <AnimatePresence mode="wait" initial={false}>
                       {r.estado === 'Pendiente' ? (
                         <motion.div
