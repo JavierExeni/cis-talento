@@ -99,14 +99,14 @@ export function Roles() {
           }
         />
         <div className="overflow-x-auto p-5 pt-4">
-          <table className="w-full border-collapse">
+          <table className="w-full border-separate border-spacing-0">
             <thead>
               <tr>
-                <th className="sticky left-0 z-20 border-r border-line bg-card py-1 pr-4 pl-1 pb-3 text-left text-[12px] font-medium tracking-wide text-faint uppercase">
+                <th className="sticky left-0 z-20 border-b border-line bg-card py-3 pr-4 pl-1 text-left text-[12px] font-medium tracking-wide text-faint uppercase shadow-[1px_0_0_var(--color-line)]">
                   Módulo
                 </th>
                 {roles.map((r) => (
-                  <th key={r.id} className="px-2 pb-3 text-center">
+                  <th key={r.id} className="border-b border-line bg-card px-2 py-3 text-center">
                     <span className="flex items-center justify-center gap-1.5 text-[12px] font-semibold whitespace-nowrap text-fg">
                       <span className="size-2 rounded-full" style={{ background: r.color }} />
                       {r.nombre}
@@ -117,12 +117,14 @@ export function Roles() {
             </thead>
             <tbody>
               {modulos.map((m) => (
-                <tr key={m} className="border-t border-line-soft">
-                  <td className="sticky left-0 z-10 border-r border-line bg-card py-3 pr-4 pl-1 text-[13px] font-medium whitespace-nowrap text-muted">{m}</td>
+                <tr key={m}>
+                  <td className="sticky left-0 z-10 border-b border-line-soft bg-card py-3 pr-4 pl-1 text-[13px] font-medium whitespace-nowrap text-muted shadow-[1px_0_0_var(--color-line)]">
+                    {m}
+                  </td>
                   {roles.map((r) => {
                     const enabled = matrix[r.id]?.[m] ?? []
                     return (
-                      <td key={r.id} className="px-2 py-3">
+                      <td key={r.id} className="border-b border-line-soft px-2 py-3">
                         <div className="flex items-center justify-center gap-1">
                           {acciones.map((a) => {
                             const key = `${r.id}-${m}-${a}`
