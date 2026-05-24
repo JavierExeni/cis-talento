@@ -126,7 +126,7 @@ export function Empleados() {
           <Select value={estado} onChange={setEstado} options={[['all', 'Estado'], ['Activo', 'Activo'], ['Inactivo', 'Inactivo']]} />
         </div>
 
-        <DataTable columns={columns} data={data} globalFilter={search} onRowClick={setSelected} />
+        <DataTable columns={columns} data={data} globalFilter={search} onRowClick={setSelected} minWidth={880} />
       </Card>
 
       <Drawer open={!!selected} onClose={() => setSelected(null)}>

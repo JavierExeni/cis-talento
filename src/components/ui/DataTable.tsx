@@ -15,9 +15,11 @@ interface DataTableProps<T> {
   data: T[]
   globalFilter?: string
   onRowClick?: (row: T) => void
+  /** Ancho mínimo de la tabla: por debajo, el contenedor hace scroll horizontal (móvil). */
+  minWidth?: number
 }
 
-export function DataTable<T>({ columns, data, globalFilter, onRowClick }: DataTableProps<T>) {
+export function DataTable<T>({ columns, data, globalFilter, onRowClick, minWidth = 640 }: DataTableProps<T>) {
   const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
@@ -31,8 +33,8 @@ export function DataTable<T>({ columns, data, globalFilter, onRowClick }: DataTa
   })
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-sm">
+    <div className="-mx-px overflow-x-auto">
+      <table className="w-full border-collapse text-sm" style={{ minWidth }}>
         <thead>
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id} className="border-b border-line">

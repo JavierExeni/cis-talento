@@ -149,7 +149,7 @@ export function Nomina() {
               </div>
             </div>
             <div className="max-h-[520px] overflow-y-auto">
-              <DataTable columns={columns} data={payroll} globalFilter={search} />
+              <DataTable columns={columns} data={payroll} globalFilter={search} minWidth={720} />
             </div>
           </Card>
         </div>
