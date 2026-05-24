@@ -109,7 +109,7 @@ export function Empleados() {
             />
           </div>
 
-          <div className="flex items-center gap-1 rounded-lg border border-line bg-panel p-1">
+          <div className="flex w-full flex-wrap items-center gap-1 rounded-lg border border-line bg-panel p-1 sm:w-auto">
             <FilterChip active={pais === 'all'} onClick={() => setPais('all')}>
               Todos
             </FilterChip>
