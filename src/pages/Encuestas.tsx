@@ -38,7 +38,7 @@ export function Encuestas() {
         action={<NewCampaignButton />}
       />
 
-      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="eNPS actual" value={enps.score} icon={Gauge} accent delta="+14" />
         <StatCard label="Clima promedio" value={climaPromedio} decimals={1} suffix=" / 5" icon={Smile} delta="+0.3" />
         <StatCard label="Participación" value={Math.round(participacionGlobal * 100)} suffix="%" icon={Users} delta="+6%" />

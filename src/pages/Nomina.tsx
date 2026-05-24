@@ -78,7 +78,7 @@ export function Nomina() {
       />
 
       {/* Summary */}
-      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 lg:grid-cols-4">
         <SummaryCard label="Nómina neta total" amount={payrollTotal} hidden={!canSee} icon={Wallet} accent />
         <SummaryCard label="Masa salarial bruta" amount={payrollBrutoTotal} hidden={!canSee} icon={TrendingUp} />
         <SummaryCard label="Bonos del período" amount={payrollBonosTotal} hidden={!canSee} icon={TrendingUp} />
@@ -90,7 +90,7 @@ export function Nomina() {
                 <Users size={16} />
               </span>
             </div>
-            <p className="mt-3 font-display text-[30px] leading-none font-semibold tabular text-fg">{payroll.length}</p>
+            <p className="mt-3 font-display text-[22px] leading-none font-semibold tabular text-fg sm:text-[26px]">{payroll.length}</p>
             <p className="mt-1 text-[11px] text-faint">activos · 4 países</p>
           </Card>
         </motion.div>
@@ -206,7 +206,7 @@ function SummaryCard({
             <Icon size={16} />
           </span>
         </div>
-        <div className="relative mt-3 font-display text-[26px] leading-none font-semibold tabular text-fg">
+        <div className="relative mt-3 font-display text-[22px] leading-none font-semibold tabular text-fg sm:text-[26px]">
           <Money amount={amount} hidden={hidden} strong big />
         </div>
         <p className="relative mt-1.5 text-[11px] text-faint">mensual · USD</p>

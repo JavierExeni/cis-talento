@@ -49,8 +49,8 @@ export function StatCard({
           <Icon size={16} strokeWidth={2} />
         </span>
       </div>
-      <div className="relative mt-3 flex items-end gap-2">
-        <span className="font-display text-[30px] leading-none font-semibold tracking-tight tabular text-fg">
+      <div className="relative mt-3 flex flex-wrap items-end gap-x-2 gap-y-0.5">
+        <span className="font-display text-[26px] leading-none font-semibold tracking-tight tabular text-fg sm:text-[30px]">
           {prefix}
           {n.toLocaleString('es-419', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}
           {suffix}

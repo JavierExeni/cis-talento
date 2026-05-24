@@ -37,7 +37,7 @@ export function Okrs() {
         action={<NewObjectiveButton />}
       />
 
-      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Objetivos activos" value={objetivos.length} icon={Target} accent />
         <StatCard label="Avance global" value={avance} suffix="%" icon={TrendingUp} delta="+6%" />
         <StatCard label="KRs en meta" value={enMeta} icon={CheckCircle2} />

@@ -51,7 +51,7 @@ export function VozColaborador() {
         }
       />
 
-      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Reconocimientos del mes" value={128} icon={Heart} accent delta="+22%" />
         <StatCard label="Estrellas otorgadas" value={342} icon={Star} delta="+58" />
         <StatCard label="Reportes abiertos" value={abiertas} icon={ShieldQuestion} />

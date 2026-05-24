@@ -66,7 +66,7 @@ export function Desempeno() {
         }
       />
 
-      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Ciclo actual" value={2026} icon={Gauge} accent suffix=" · S1" />
         <StatCard label="Avance de evaluaciones" value={78} suffix="%" icon={CheckCircle2} delta="+12%" />
         <StatCard label="Promedio organizacional" value={4.2} decimals={1} suffix=" / 5" icon={Star} delta="+0.3" />

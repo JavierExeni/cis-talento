@@ -37,7 +37,7 @@ export function Permisos() {
       />
 
       {/* Mis saldos */}
-      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 lg:grid-cols-4">
         {myBalances.map((b) => {
           const disp = b.total - b.usado
           return (

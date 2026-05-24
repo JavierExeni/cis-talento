@@ -59,7 +59,7 @@ export function Dashboard() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-2 gap-4 lg:grid-cols-4"
+        className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-4 lg:grid-cols-4"
       >
         <StatCard label="Colaboradores activos" value={kpis.headcount} icon={Users} accent delta="+2.7%" />
         <StatCard label="Altas del mes" value={kpis.altasMes} icon={UserPlus} delta="+4" />
