@@ -122,8 +122,8 @@ export function Nomina() {
         {/* Table */}
         <div className="lg:col-span-2">
           <Card>
-            <div className="flex items-center gap-3 border-b border-line p-4">
-              <div className="flex flex-1 items-center gap-2.5 rounded-lg border border-line bg-panel px-3 py-2 focus-within:border-white/20">
+            <div className="flex flex-wrap items-center gap-3 border-b border-line p-4">
+              <div className="flex min-w-[200px] flex-1 items-center gap-2.5 rounded-lg border border-line bg-panel px-3 py-2 focus-within:border-white/20">
                 <Search size={16} className="text-faint" />
                 <input
                   value={search}

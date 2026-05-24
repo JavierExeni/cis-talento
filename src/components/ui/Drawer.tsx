@@ -28,7 +28,7 @@ export function Drawer({
             onClick={onClose}
           />
           <motion.aside
-            className="absolute top-0 right-0 h-full overflow-y-auto border-l border-line bg-panel shadow-2xl"
+            className="absolute top-0 right-0 h-full max-w-full overflow-y-auto border-l border-line bg-panel shadow-2xl"
             style={{ width }}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}

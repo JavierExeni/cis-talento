@@ -66,13 +66,13 @@ function ObjectiveCard({ obj, open, onToggle }: { obj: Objetivo; open: boolean; 
             <h3 className="truncate text-[15px] font-semibold text-fg">{obj.nombre}</h3>
             <Badge variant="outline">{obj.nivel}</Badge>
           </div>
-          <div className="mt-1 flex items-center gap-3 text-[12px] text-faint">
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-faint">
             <span className="flex items-center gap-1.5">
               <Avatar iniciales={obj.iniciales} gradient="linear-gradient(135deg,#a78bfa,#7c3aed)" size={18} />
               {obj.owner}
             </span>
             <span className="font-mono">{obj.krs.length} KRs</span>
-            <span>Vence {obj.vencimiento}</span>
+            <span className="hidden sm:inline">Vence {obj.vencimiento}</span>
           </div>
         </div>
         <Badge variant={prioVariant[obj.prioridad]}>{obj.prioridad}</Badge>

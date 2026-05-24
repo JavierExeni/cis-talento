@@ -1,23 +1,30 @@
 import { NavLink } from 'react-router-dom'
-import { motion } from 'motion/react'
-import { ChevronsLeftRight, ChevronsRightLeft, ChevronDown } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import { ChevronsLeftRight, ChevronsRightLeft, ChevronDown, X } from 'lucide-react'
 import { navGroups } from './nav'
 import { BrandMark } from '@/components/Brand'
 import { Avatar } from '@/components/ui/Avatar'
 import { useToast } from '@/components/ui/toast'
+import { easeOut } from '@/lib/motion'
 import { cn } from '@/lib/cn'
 
-export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
+function NavContent({
+  collapsed = false,
+  onNavigate,
+  onToggleCollapse,
+  idPrefix,
+}: {
+  collapsed?: boolean
+  onNavigate?: () => void
+  onToggleCollapse?: () => void
+  idPrefix: string
+}) {
   const toast = useToast()
   return (
-    <motion.aside
-      animate={{ width: collapsed ? 76 : 266 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className="sticky top-0 z-30 flex h-screen shrink-0 flex-col border-r border-line bg-panel"
-    >
+    <>
       {/* Brand */}
-      <div className={cn('flex h-16 items-center px-4', collapsed && 'justify-center px-0')}>
-        <NavLink to="/" className="flex items-center gap-2.5">
+      <div className={cn('flex h-16 shrink-0 items-center px-4', collapsed && 'justify-center px-0')}>
+        <NavLink to="/" onClick={onNavigate} className="flex items-center gap-2.5">
           <BrandMark size={30} />
           {!collapsed && (
             <span className="font-display text-[17px] leading-none font-semibold tracking-tight whitespace-nowrap text-fg">
@@ -36,7 +43,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
             collapsed && 'justify-center px-0',
           )}
         >
-          <span className="flex size-6 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent-deep text-[11px] font-bold text-black">
+          <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-accent to-accent-deep text-[11px] font-bold text-black">
             C
           </span>
           {!collapsed && (
@@ -66,6 +73,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
                   key={item.to}
                   to={item.to}
                   end={item.to === '/'}
+                  onClick={onNavigate}
                   className={({ isActive }) =>
                     cn(
                       'group relative flex items-center gap-3 rounded-lg px-2.5 py-2 text-[13.5px] font-medium transition-colors',
@@ -78,9 +86,9 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
                     <>
                       {isActive && (
                         <motion.span
-                          layoutId="nav-active"
+                          layoutId={`${idPrefix}-nav-active`}
                           className="absolute top-1.5 bottom-1.5 left-0 w-[2.5px] rounded-full bg-accent"
-                          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{ duration: 0.25, ease: easeOut }}
                         />
                       )}
                       <item.icon
@@ -104,7 +112,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-line p-3">
+      <div className="shrink-0 border-t border-line p-3">
         <div className={cn('flex items-center gap-2.5', collapsed && 'justify-center')}>
           <Avatar iniciales="EL" gradient="linear-gradient(135deg,#ffb224,#f97316)" size={34} />
           {!collapsed && (
@@ -113,9 +121,9 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
               <p className="truncate text-[11px] text-faint">Analista de RR.HH.</p>
             </div>
           )}
-          {!collapsed && (
+          {!collapsed && onToggleCollapse && (
             <button
-              onClick={onToggle}
+              onClick={onToggleCollapse}
               className="flex size-7 items-center justify-center rounded-md text-faint transition-colors hover:bg-white/[0.06] hover:text-fg"
               aria-label="Colapsar"
             >
@@ -123,9 +131,9 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
             </button>
           )}
         </div>
-        {collapsed && (
+        {collapsed && onToggleCollapse && (
           <button
-            onClick={onToggle}
+            onClick={onToggleCollapse}
             className="mt-2 flex w-full items-center justify-center rounded-md py-1.5 text-faint transition-colors hover:bg-white/[0.06] hover:text-fg"
             aria-label="Expandir"
           >
@@ -133,6 +141,55 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
           </button>
         )}
       </div>
+    </>
+  )
+}
+
+/** Sidebar persistente — solo en lg+ */
+export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
+  return (
+    <motion.aside
+      animate={{ width: collapsed ? 76 : 266 }}
+      transition={{ duration: 0.3, ease: easeOut }}
+      className="sticky top-0 z-30 hidden h-screen shrink-0 flex-col border-r border-line bg-panel lg:flex"
+    >
+      <NavContent collapsed={collapsed} onToggleCollapse={onToggle} idPrefix="d" />
     </motion.aside>
+  )
+}
+
+/** Sidebar off-canvas — móvil y tablet (< lg) */
+export function MobileSidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <div className="fixed inset-0 z-[60] lg:hidden">
+          <motion.div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.22 }}
+            onClick={onClose}
+          />
+          <motion.aside
+            className="absolute top-0 left-0 flex h-full w-[280px] max-w-[85vw] flex-col border-r border-line bg-panel shadow-2xl"
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ duration: 0.3, ease: easeOut }}
+          >
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-3 z-10 flex size-8 items-center justify-center rounded-lg text-faint transition-colors hover:bg-white/[0.06] hover:text-fg"
+              aria-label="Cerrar menú"
+            >
+              <X size={17} />
+            </button>
+            <NavContent onNavigate={onClose} idPrefix="m" />
+          </motion.aside>
+        </div>
+      )}
+    </AnimatePresence>
   )
 }
