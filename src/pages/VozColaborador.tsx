@@ -65,7 +65,7 @@ export function VozColaborador() {
             <CardHeader title="Reconocimientos recientes" subtitle="Estrellas de valor entre colegas" action={<Heart size={16} className="text-accent" />} />
             <div>
               {reconocimientos.map((r) => (
-                <div key={r.id} className="flex gap-3.5 border-t border-line-soft px-5 py-4">
+                <div key={r.id} className="flex flex-col gap-2.5 border-t border-line-soft px-4 py-4 sm:flex-row sm:gap-3.5 sm:px-5">
                   <div className="flex shrink-0 items-center">
                     <Avatar iniciales={r.deInic} gradient={r.deAvatar} size={36} />
                     <ArrowRight size={14} className="mx-1 text-faint" />
@@ -128,23 +128,24 @@ export function VozColaborador() {
         />
         <div>
           {denuncias.map((d) => (
-            <div key={d.id} className="flex flex-wrap items-center gap-3 border-t border-line-soft px-5 py-3.5">
-              <Badge variant={tipoVariant[d.tipo]}>{d.tipo}</Badge>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[13.5px] font-medium text-fg">{d.titulo}</p>
-                <p className="mt-0.5 flex items-center gap-2 text-[11.5px] text-faint">
-                  <span className="font-mono">{d.id}</span> · {fmtDate(d.fecha)}
-                  {d.anonimo && (
-                    <span className="inline-flex items-center gap-1">
-                      · <Lock size={11} /> anónimo
-                    </span>
-                  )}
-                </p>
+            <div key={d.id} className="border-t border-line-soft px-4 py-3.5 sm:px-5">
+              <div className="flex items-start justify-between gap-3">
+                <p className="min-w-0 flex-1 text-[13.5px] font-medium text-fg">{d.titulo}</p>
+                <Badge variant={estadoVariant[d.estado]} dot className="shrink-0">
+                  {d.estado}
+                </Badge>
               </div>
-              <CountryTag pais={d.pais} />
-              <Badge variant={estadoVariant[d.estado]} dot>
-                {d.estado}
-              </Badge>
+              <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-[11.5px] text-faint">
+                <Badge variant={tipoVariant[d.tipo]}>{d.tipo}</Badge>
+                <span className="font-mono">{d.id}</span>
+                <span>{fmtDate(d.fecha)}</span>
+                <CountryTag pais={d.pais} />
+                {d.anonimo && (
+                  <span className="inline-flex items-center gap-1">
+                    <Lock size={11} /> anónimo
+                  </span>
+                )}
+              </div>
             </div>
           ))}
         </div>
