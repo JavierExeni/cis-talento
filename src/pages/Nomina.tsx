@@ -69,7 +69,7 @@ export function Nomina() {
                 Admin de Nómina
               </RoleToggle>
               <RoleToggle active={!canSee} onClick={() => setCanSee(false)} icon={<Lock size={14} />}>
-                Analista CyC
+                Analista de RR.HH.
               </RoleToggle>
             </div>
             <ExportButton label="Exportar planilla" filename="planilla_mayo_2026.xlsx" variant="primary" />

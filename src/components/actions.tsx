@@ -70,7 +70,7 @@ const PrimaryTrigger = (label: string, icon: ReactNode, variant: Variant = 'prim
     )
 
 const employeeFields: FormField[] = [
-  { name: 'nombre', label: 'Nombre completo', placeholder: 'Ej. María Fernanda López', full: true },
+  { name: 'nombre', label: 'Nombre completo', placeholder: 'Ej. Emily Smith', full: true },
   { name: 'email', label: 'Correo corporativo', type: 'email', placeholder: 'nombre.apellido@cislatam.com' },
   { name: 'telefono', label: 'Teléfono', placeholder: '+591 70000000' },
   { name: 'puesto', label: 'Puesto', placeholder: 'Ej. Asesor Comercial' },
@@ -110,7 +110,7 @@ export function NewLeaveButton({ label = 'Solicitar permiso' }: { label?: string
           label: 'Tipo de permiso',
           type: 'select',
           full: true,
-          options: ['Vacaciones', 'Enfermedad', 'Licencia con goce', 'Matrimonio', 'Cumpleaños', 'Home Office'].map(opt),
+          options: ['Vacaciones', 'Enfermedad', 'Permiso personal', 'Matrimonio', 'Cumpleaños', 'Home Office'].map(opt),
         },
         { name: 'desde', label: 'Desde', type: 'date' },
         { name: 'hasta', label: 'Hasta', type: 'date' },
@@ -134,7 +134,7 @@ export function NewObjectiveButton({ label = 'Crear objetivo' }: { label?: strin
         { name: 'nombre', label: 'Nombre del objetivo', full: true, placeholder: 'Ej. Plan de negocio cumplido' },
         { name: 'nivel', label: 'Nivel', type: 'select', options: ['Empresa', 'Área', 'Equipo'].map(opt) },
         { name: 'prioridad', label: 'Prioridad', type: 'select', options: ['Crítico', 'Alto', 'Medio', 'Bajo'].map(opt) },
-        { name: 'owner', label: 'Responsable', placeholder: 'Ej. Fabián Di Gregorio' },
+        { name: 'owner', label: 'Responsable', placeholder: 'Ej. John Smith' },
         { name: 'vencimiento', label: 'Vencimiento', type: 'date' },
       ]}
       submitLabel="Crear objetivo"
@@ -152,8 +152,8 @@ export function NewCampaignButton({ label = 'Nueva campaña' }: { label?: string
       description="Elige una plantilla — todas son editables."
       icon={<ClipboardList size={18} />}
       fields={[
-        { name: 'nombre', label: 'Nombre de la campaña', full: true, placeholder: 'Ej. Clima CyC 2026 · S2' },
-        { name: 'plantilla', label: 'Plantilla', type: 'select', options: ['eNPS', '6C (Cultura)', 'Bienestar', 'Pulso', 'Personalizada'].map(opt) },
+        { name: 'nombre', label: 'Nombre de la campaña', full: true, placeholder: 'Ej. Clima Organizacional 2026 · S2' },
+        { name: 'plantilla', label: 'Plantilla', type: 'select', options: ['eNPS', 'Encuesta de Cultura', 'Bienestar', 'Pulso', 'Personalizada'].map(opt) },
         { name: 'vence', label: 'Fecha de cierre', type: 'date' },
         { name: 'anonimo', label: 'Anónima', type: 'select', options: ['Sí', 'No'].map(opt) },
         { name: 'sedes', label: 'Alcance', type: 'select', options: ['Todos los países', ...countryList.map((c) => c.nombre)].map(opt) },
@@ -189,7 +189,7 @@ export function RecognitionButton({ label = 'Dar reconocimiento', variant = 'pri
     <FormAction
       trigger={PrimaryTrigger(label, <Heart size={16} />, variant)}
       title="Dar un reconocimiento"
-      description="Reconoce a un colega con estrellas de valor."
+      description="Reconoce a un colega con un reconocimiento."
       icon={<Heart size={18} />}
       fields={[
         { name: 'para', label: 'Para', full: true, placeholder: 'Nombre del colaborador' },
@@ -226,7 +226,7 @@ export function ReportIssueButton({ label = 'Reportar', variant = 'outline' }: {
       ]}
       submitLabel="Enviar reporte"
       successTitle="Reporte enviado"
-      successDescription="Gracias por tu confianza. Lo revisará el equipo de CyC."
+      successDescription="Gracias por tu confianza. Lo revisará el equipo de RR.HH."
     />
   )
 }

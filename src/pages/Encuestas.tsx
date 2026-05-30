@@ -34,7 +34,7 @@ export function Encuestas() {
       <PageHeader
         eyebrow="Cultura · Encuestas y clima"
         title="Encuestas y clima"
-        description="eNPS, clima y cultura (6C) con plantillas y preguntas configurables — no solo 2 plantillas fijas."
+        description="eNPS, clima y cultura con plantillas y preguntas configurables — no solo 2 plantillas fijas."
         action={<NewCampaignButton />}
       />
 

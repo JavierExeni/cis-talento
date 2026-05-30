@@ -42,7 +42,7 @@ export function VozColaborador() {
       <PageHeader
         eyebrow="Cultura · Voz del colaborador"
         title="Voz del colaborador"
-        description="Reconocimiento entre colegas (estrellas de valor) y un canal seguro y anónimo para reportar."
+        description="Reconocimiento entre colegas y un canal seguro y anónimo para reportar."
         action={
           <>
             <ReportIssueButton />
@@ -62,7 +62,7 @@ export function VozColaborador() {
         {/* Feed de reconocimientos */}
         <div className="lg:col-span-2">
           <Card>
-            <CardHeader title="Reconocimientos recientes" subtitle="Estrellas de valor entre colegas" action={<Heart size={16} className="text-accent" />} />
+            <CardHeader title="Reconocimientos recientes" subtitle="Reconocimientos entre colegas" action={<Star size={16} className="text-accent" />} />
             <div>
               {reconocimientos.map((r) => (
                 <div key={r.id} className="flex flex-col gap-2.5 border-t border-line-soft px-4 py-4 sm:flex-row sm:gap-3.5 sm:px-5">

@@ -24,7 +24,7 @@ export interface Role {
 export const roles: Role[] = [
   { id: 'empleado', nombre: 'Empleado', descripcion: 'Acceso a su propia información y autoservicio.', usuarios: 268, color: '#6f6c78' },
   { id: 'supervisor', nombre: 'Supervisor', descripcion: 'Gestiona y aprueba a su equipo directo.', usuarios: 34, color: '#74a8ff' },
-  { id: 'analista', nombre: 'Analista CyC', descripcion: 'Operación de RR.HH. por país, sin sueldos.', usuarios: 7, color: '#46d88f' },
+  { id: 'analista', nombre: 'Analista de RR.HH.', descripcion: 'Operación de RR.HH. por país, sin sueldos.', usuarios: 7, color: '#46d88f' },
   { id: 'jefe', nombre: 'Jefe de Área', descripcion: 'Visibilidad de su área incluyendo costos.', usuarios: 12, color: '#fbbf24' },
   { id: 'nomina', nombre: 'Admin de Nómina', descripcion: 'Único rol con acceso a salarios y planilla.', usuarios: 2, color: '#ffb224' },
   { id: 'global', nombre: 'Administrador Global', descripcion: 'Control total del sistema. Acceso restringido.', usuarios: 1, color: '#ff6f6f' },

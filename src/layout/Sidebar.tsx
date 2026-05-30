@@ -114,10 +114,10 @@ function NavContent({
       {/* Footer */}
       <div className="shrink-0 border-t border-line p-3">
         <div className={cn('flex items-center gap-2.5', collapsed && 'justify-center')}>
-          <Avatar iniciales="EL" gradient="linear-gradient(135deg,#ffb224,#f97316)" size={34} />
+          <Avatar iniciales="AC" gradient="linear-gradient(135deg,#ffb224,#f97316)" size={34} />
           {!collapsed && (
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[13px] font-semibold text-fg">Edgar Loayza</p>
+              <p className="truncate text-[13px] font-semibold text-fg">Alex Carter</p>
               <p className="truncate text-[11px] text-faint">Analista de RR.HH.</p>
             </div>
           )}

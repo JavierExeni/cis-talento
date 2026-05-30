@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { X, CheckCheck, CalendarCheck, Heart, Target, Wallet, Server, Gift, type LucideIcon } from 'lucide-react'
+import { X, CheckCheck, CalendarCheck, Star, Target, Wallet, Server, Gift, type LucideIcon } from 'lucide-react'
 import { notifications, type NotifKind } from '@/data/notifications'
 import { easeOut } from '@/lib/motion'
 import { cn } from '@/lib/cn'
 
 const kindMeta: Record<NotifKind, { icon: LucideIcon; color: string }> = {
   permiso: { icon: CalendarCheck, color: 'var(--color-info)' },
-  reconocimiento: { icon: Heart, color: 'var(--color-warning)' },
+  reconocimiento: { icon: Star, color: 'var(--color-warning)' },
   okr: { icon: Target, color: 'var(--color-accent)' },
   nomina: { icon: Wallet, color: 'var(--color-accent)' },
   sistema: { icon: Server, color: 'var(--color-success)' },

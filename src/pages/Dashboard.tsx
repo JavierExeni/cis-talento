@@ -44,7 +44,7 @@ export function Dashboard() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Lunes · 23 de mayo de 2026"
-        title="Buen día, Edgar"
+        title="Buen día, Alex"
         description="Este es el pulso de tu organización en los 4 países hoy."
         action={
           <>

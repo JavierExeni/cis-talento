@@ -79,7 +79,7 @@ export function Login() {
             <Field icon={<Mail size={16} />} label="Correo corporativo">
               <input
                 type="email"
-                defaultValue="edgar.loayza@cislatam.com"
+                defaultValue="alex.carter@cislatam.com"
                 className="w-full bg-transparent text-sm text-fg placeholder:text-faint focus:outline-none"
               />
             </Field>

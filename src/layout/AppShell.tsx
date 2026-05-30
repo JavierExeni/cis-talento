@@ -21,6 +21,7 @@ export function AppShell() {
         <Topbar
           onToggleNotifications={() => setNotifOpen((o) => !o)}
           onMenuClick={() => setMobileNavOpen(true)}
+          onToggleSidebar={() => setCollapsed((c) => !c)}
         />
         <NotificationsPanel open={notifOpen} onClose={() => setNotifOpen(false)} />
         <main className="flex-1">

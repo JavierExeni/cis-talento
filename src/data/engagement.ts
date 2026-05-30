@@ -17,9 +17,9 @@ export interface Campaña {
 }
 
 export const campañas: Campaña[] = [
-  { id: 'C-301', nombre: 'Clima CyC 2026 · S1', plantilla: 'eNPS', vence: '2026-07-15', anonimo: true, estado: 'Iniciada', participacion: 0.72 },
+  { id: 'C-301', nombre: 'Clima Organizacional 2026 · S1', plantilla: 'eNPS', vence: '2026-07-15', anonimo: true, estado: 'Iniciada', participacion: 0.72 },
   { id: 'C-302', nombre: 'Pulso trimestral Q2', plantilla: 'Bienestar', vence: '2026-06-05', anonimo: true, estado: 'Iniciada', participacion: 0.41 },
-  { id: 'C-303', nombre: '6C — Cultura y Colaboradores', plantilla: '6C (Cultura)', vence: '2026-07-30', anonimo: false, estado: 'Borrador', participacion: 0 },
+  { id: 'C-303', nombre: 'Encuesta de Cultura 2026', plantilla: 'Encuesta de Cultura', vence: '2026-07-30', anonimo: false, estado: 'Borrador', participacion: 0 },
   { id: 'C-298', nombre: 'Feedback de onboarding', plantilla: 'Pulso', vence: '2026-04-15', anonimo: false, estado: 'Cerrada', participacion: 0.88 },
   { id: 'C-295', nombre: 'eNPS anual 2025', plantilla: 'eNPS', vence: '2025-12-20', anonimo: true, estado: 'Cerrada', participacion: 0.79 },
 ]
@@ -42,7 +42,7 @@ export interface Plantilla {
 
 export const plantillas: Plantilla[] = [
   { nombre: 'eNPS', preguntas: 3, tipo: 'Recomendación + abiertas', editable: true },
-  { nombre: '6C (Cultura)', preguntas: 18, tipo: 'Escala + abiertas', editable: true },
+  { nombre: 'Encuesta de Cultura', preguntas: 18, tipo: 'Escala + abiertas', editable: true },
   { nombre: 'Bienestar', preguntas: 12, tipo: 'Escala 1–5', editable: true },
   { nombre: 'Pulso', preguntas: 5, tipo: 'Mixta', editable: true },
   { nombre: 'Personalizada', preguntas: 0, tipo: 'Desde cero', editable: true },
@@ -68,7 +68,7 @@ const mensajes = [
   'Siempre dispuesta a ayudar al equipo nuevo. Pura buena onda.',
   'Lideró el cierre de mes sin un solo error. Impecable.',
   'Resolvió el incidente de soporte en tiempo récord.',
-  'Excelente acompañamiento a los asesores de Santa Cruz.',
+  'Excelente acompañamiento al equipo de soporte.',
   'Propuso una mejora que nos ahorró horas de trabajo manual.',
 ]
 

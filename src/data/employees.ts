@@ -39,20 +39,20 @@ export interface Employee {
 }
 
 const nombres = [
-  'Camila', 'Mateo', 'Valentina', 'Santiago', 'Isabella', 'Sebastián', 'Sofía', 'Benjamín',
-  'Emilia', 'Joaquín', 'Antonella', 'Tomás', 'Martina', 'Lucas', 'Renata', 'Agustín',
-  'Catalina', 'Maximiliano', 'Florencia', 'Gabriel', 'Josefa', 'Nicolás', 'Antonia', 'Diego',
-  'Paula', 'Bruno', 'Constanza', 'Ignacio', 'Trinidad', 'Vicente', 'Amanda', 'Franco',
-  'Esperanza', 'Rodrigo', 'Daniela', 'Andrés', 'Fernanda', 'Cristóbal', 'Magdalena', 'Emiliano',
-  'Yerson', 'Norma', 'Priscila', 'Fabián', 'Magaly', 'Norberto', 'Flavia', 'Brenda',
+  'Emily', 'Michael', 'Sarah', 'James', 'Jessica', 'David', 'Ashley', 'Daniel',
+  'Amanda', 'Matthew', 'Jennifer', 'Andrew', 'Lauren', 'Joshua', 'Megan', 'Ryan',
+  'Rachel', 'Brandon', 'Samantha', 'Tyler', 'Nicole', 'Justin', 'Hannah', 'Kevin',
+  'Olivia', 'Nathan', 'Victoria', 'Adam', 'Brittany', 'Aaron', 'Kayla', 'Eric',
+  'Christina', 'Sean', 'Danielle', 'Jacob', 'Stephanie', 'Patrick', 'Allison', 'Steven',
+  'Natalie', 'Benjamin', 'Rebecca', 'Jonathan', 'Catherine', 'Charles', 'Heather', 'Gregory',
 ]
 
 const apellidos = [
-  'Loayza', 'Quispe', 'Rodríguez', 'Flores', 'Mamani', 'Pérez', 'Salvatierra', 'Antelo',
-  'Cuevas', 'López', 'Moreno', 'Poquiviqui', 'Sologuren', 'Valderrama', 'Amador', 'Honor',
-  'Cabello', 'Gómez', 'Loor', 'Moncayo', 'Churquina', 'Vilte', 'Bruno', 'Moreira',
-  'Peña', 'Nievas', 'Cazaux', 'Bagnato', 'Burastero', 'Villarreal', 'Di Gregorio', 'Lovaglio',
-  'Loffreda', 'Jara', 'Briones', 'Benavides', 'Ramírez', 'Riveros', 'García', 'Tejerina',
+  'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Garcia',
+  'Wilson', 'Anderson', 'Taylor', 'Thomas', 'Moore', 'Martin', 'Jackson', 'Thompson',
+  'White', 'Harris', 'Clark', 'Lewis', 'Walker', 'Hall', 'Allen', 'Young',
+  'King', 'Wright', 'Scott', 'Green', 'Baker', 'Adams', 'Nelson', 'Carter',
+  'Mitchell', 'Roberts', 'Turner', 'Phillips', 'Campbell', 'Parker', 'Evans', 'Edwards',
 ]
 
 interface Area {
@@ -67,7 +67,7 @@ const areas: Area[] = [
   { departamento: 'Operaciones', cc: 'OPS-CTR', puestos: ['Analista de Operaciones', 'Supervisor de Operaciones', 'Coordinador Logístico', 'Jefe de Operaciones'], rango: [950, 2900] },
   { departamento: 'Administración & Finanzas', cc: 'ADM-FIN', puestos: ['Analista Contable', 'Tesorería', 'Generalista Adm. & Finanzas', 'Jefe de Finanzas'], rango: [1100, 3600] },
   { departamento: 'Tecnología', cc: 'TI-DEV', puestos: ['Desarrollador', 'Analista de Sistemas', 'Soporte IT', 'Líder de Tecnología'], rango: [1400, 4200] },
-  { departamento: 'Cultura y Colaboradores', cc: 'CYC-RH', puestos: ['Analista de RR.HH.', 'Generalista de Talento', 'Reclutador', 'Jefe de CyC'], rango: [1050, 3400] },
+  { departamento: 'Recursos Humanos', cc: 'RH-GEN', puestos: ['Analista de RR.HH.', 'Generalista de Talento', 'Reclutador', 'Jefe de RR.HH.'], rango: [1050, 3400] },
   { departamento: 'Marketing', cc: 'MKT-BR', puestos: ['Diseñador', 'Community Manager', 'Analista de Marketing', 'Jefe de Marketing'], rango: [980, 3000] },
   { departamento: 'Atención al Cliente', cc: 'CX-CALL', puestos: ['Agente CX', 'Supervisor CX', 'Especialista de Soporte'], rango: [780, 1900] },
 ]
@@ -105,7 +105,7 @@ function generate(): Employee[] {
     const pais = pick(countryCodes)
     const area = pick(areas)
     const puesto = pick(area.puestos)
-    const nombre = `${pick(nombres)} ${pick(apellidos)} ${pick(apellidos)}`
+    const nombre = `${pick(nombres)} ${pick(apellidos)}`
     const id = `${pais}${++counters[pais]}`
     const [min, max] = area.rango
     // Senior roles skew higher within the band.

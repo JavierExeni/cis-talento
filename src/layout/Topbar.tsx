@@ -8,18 +8,29 @@ import { useToast } from '@/components/ui/toast'
 export function Topbar({
   onToggleNotifications,
   onMenuClick,
+  onToggleSidebar,
 }: {
   onToggleNotifications: () => void
   onMenuClick: () => void
+  onToggleSidebar: () => void
 }) {
   const toast = useToast()
+  // Un único botón de menú visible siempre: en escritorio (lg+) colapsa/expande el
+  // sidebar persistente; en móvil/tablet abre el drawer.
+  const handleMenu = () => {
+    if (typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches) {
+      onToggleSidebar()
+    } else {
+      onMenuClick()
+    }
+  }
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center gap-2.5 border-b border-line bg-bg/80 px-4 surface-blur sm:gap-4 sm:px-5">
-      {/* Móvil: hamburguesa + brand */}
+      {/* Botón de menú principal — visible en todo momento */}
       <button
-        onClick={onMenuClick}
-        className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-line bg-card text-muted transition-colors hover:text-fg lg:hidden"
-        aria-label="Abrir menú"
+        onClick={handleMenu}
+        className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-line bg-card text-muted transition-colors hover:text-fg"
+        aria-label="Menú"
       >
         <Menu size={18} />
       </button>
