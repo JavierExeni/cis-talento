@@ -1,13 +1,17 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { ShieldCheck, ShieldAlert, Lock, KeyRound } from 'lucide-react'
+import { ShieldCheck, ShieldAlert, Lock, KeyRound, ArrowRight, Download } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card, CardHeader } from '@/components/ui/Card'
+import { Modal } from '@/components/ui/Modal'
+import { Button } from '@/components/ui/Button'
+import { Badge } from '@/components/ui/Badge'
+import { Avatar } from '@/components/ui/Avatar'
 import { useToast } from '@/components/ui/toast'
 import { NewRoleButton } from '@/components/actions'
 import { container, fadeUp } from '@/lib/motion'
 import { cn } from '@/lib/cn'
-import { roles, modulos, acciones, matrix, fieldPermissions } from '@/data/roles'
+import { roles, modulos, acciones, matrix, fieldPermissions, usuariosPermisosErroneos } from '@/data/roles'
 
 const accInitial: Record<string, string> = {
   Ver: 'V',
@@ -20,6 +24,17 @@ const accInitial: Record<string, string> = {
 export function Roles() {
   const toast = useToast()
   const [overrides, setOverrides] = useState<Record<string, boolean>>({})
+  const [reportOpen, setReportOpen] = useState(false)
+
+  const exportarAuditoria = () => {
+    const id = toast.loading('Generando auditoría…', `${usuariosPermisosErroneos.length} usuarios`)
+    setTimeout(() => toast.update(id, 'success', 'Auditoría exportada', 'permisos_erroneos.xlsx'), 1100)
+  }
+  const aplicarMinimoPrivilegio = () => {
+    toast.success('Mínimo privilegio aplicado', `${usuariosPermisosErroneos.length} usuarios reasignados a su rol sugerido.`)
+    setReportOpen(false)
+  }
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -57,9 +72,62 @@ export function Roles() {
                 </p>
               </div>
             </div>
+            <button
+              onClick={() => setReportOpen(true)}
+              className="inline-flex items-center gap-2 rounded-lg border border-danger/30 bg-danger-soft/40 px-3.5 py-2 text-[12.5px] font-medium text-danger transition-colors hover:bg-danger-soft sm:ml-auto"
+            >
+              <ShieldAlert size={15} /> Ver usuarios con permisos erróneos
+              <ArrowRight size={14} />
+            </button>
           </div>
         </Card>
       </motion.div>
+
+      {/* Reporte: usuarios con permisos erróneos */}
+      <Modal
+        open={reportOpen}
+        onClose={() => setReportOpen(false)}
+        width={640}
+        title="Usuarios con permisos erróneos"
+        description={`${usuariosPermisosErroneos.length} usuarios con “Administrador Global” — sugerencia por mínimo privilegio`}
+        icon={<ShieldAlert size={18} />}
+      >
+        <div className="max-h-[58vh] overflow-y-auto overscroll-contain">
+          {usuariosPermisosErroneos.map((u) => (
+            <div key={u.id} className="flex items-center gap-3 border-b border-line-soft px-6 py-3 last:border-0">
+              <Avatar iniciales={u.iniciales} gradient={u.avatar} size={34} />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[13.5px] font-medium text-fg">{u.nombre}</p>
+                <p className="flex items-center gap-1.5 text-[11.5px] text-faint">
+                  <span className="font-mono">{u.id}</span> · <span className="truncate">{u.departamento}</span>
+                </p>
+                <p className="mt-1 flex items-center gap-1.5 text-[11.5px] sm:hidden">
+                  <span className="text-faint">→ sugerido:</span>
+                  <span className="font-medium text-success">{u.rolSugerido}</span>
+                </p>
+              </div>
+              <div className="hidden shrink-0 items-center gap-2 sm:flex">
+                <Badge variant="danger">{u.rolActual}</Badge>
+                <ArrowRight size={13} className="text-faint" />
+                <Badge variant="success">{u.rolSugerido}</Badge>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-card/40 px-6 py-4">
+          <p className="max-w-[300px] text-[12px] leading-relaxed text-faint">
+            Aplicar mínimo privilegio revoca “Administrador Global” y asigna a cada uno su rol sugerido.
+          </p>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={exportarAuditoria}>
+              <Download size={15} /> Exportar
+            </Button>
+            <Button variant="primary" onClick={aplicarMinimoPrivilegio}>
+              <ShieldCheck size={15} /> Aplicar a todos
+            </Button>
+          </div>
+        </div>
+      </Modal>
 
       {/* Roles */}
       <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-6">

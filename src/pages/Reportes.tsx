@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
-import { FileText, FileSpreadsheet, FileType, Plus, Lock, Clock, Sparkles, Folder } from 'lucide-react'
+import { FileText, FileSpreadsheet, FileType, Plus, Lock, Clock, Sparkles, Folder, Database, CalendarDays, Target, type LucideIcon } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Badge } from '@/components/ui/Badge'
 import { useToast } from '@/components/ui/toast'
 import { container, fadeUp } from '@/lib/motion'
 import { cn } from '@/lib/cn'
@@ -38,10 +37,10 @@ const guardados = [
   { nombre: 'Rotación trimestral', cat: 'Gestor de Información', fecha: '01-04-2026', registros: 18 },
 ]
 
-const catVariant: Record<string, 'accent' | 'info' | 'success'> = {
-  'Gestor de Información': 'accent',
-  'Gestión de permisos': 'info',
-  Desempeño: 'success',
+const catMeta: Record<string, { color: string; label: string; icon: LucideIcon }> = {
+  'Gestor de Información': { color: 'var(--color-accent)', label: 'Información', icon: Database },
+  'Gestión de permisos': { color: 'var(--color-info)', label: 'Permisos', icon: CalendarDays },
+  Desempeño: { color: 'var(--color-success)', label: 'Desempeño', icon: Target },
 }
 
 const extByFormato: Record<string, string> = { csv: 'csv', excel: 'xlsx', pdf: 'pdf' }
@@ -153,33 +152,50 @@ export function Reportes() {
           <span className="font-mono text-[12px] text-faint">{guardados.length}</span>
         </div>
         <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {guardados.map((r) => (
-            <motion.div key={r.nombre} variants={fadeUp}>
-              <Card hover className="group flex h-full flex-col p-4">
-                <div className="flex items-start justify-between">
-                  <span className="flex size-9 items-center justify-center rounded-lg bg-white/[0.06] text-muted">
-                    <FileText size={17} />
-                  </span>
-                  <Badge variant={catVariant[r.cat] ?? 'neutral'}>{r.cat.split(' ')[0]}</Badge>
-                </div>
-                <p className="mt-3 text-[14px] font-semibold text-fg">{r.nombre}</p>
-                <p className="mt-0.5 flex items-center gap-1.5 text-[11.5px] text-faint">
-                  <Clock size={12} /> {r.fecha} · {r.registros} reg.
-                </p>
-                <div className="mt-3 flex gap-1.5 border-t border-line-soft pt-3 opacity-0 transition-opacity group-hover:opacity-100">
-                  {formatos.map((f) => (
-                    <button
-                      key={f.id}
-                      onClick={() => exportarGuardado(r.nombre, f.id, f.label)}
-                      className="flex flex-1 items-center justify-center gap-1 rounded-md bg-white/[0.05] py-1.5 text-[11px] text-muted transition-colors hover:bg-white/[0.1] hover:text-fg"
+          {guardados.map((r) => {
+            const meta = catMeta[r.cat] ?? { color: 'var(--color-accent)', label: r.cat.split(' ')[0], icon: FileText }
+            const Icon = meta.icon
+            return (
+              <motion.div key={r.nombre} variants={fadeUp}>
+                <Card hover className="group relative flex h-full flex-col overflow-hidden p-4">
+                  <span className="absolute inset-x-0 top-0 h-[2px]" style={{ background: meta.color }} />
+                  <div className="flex items-start justify-between">
+                    <span
+                      className="flex size-10 items-center justify-center rounded-xl transition-transform group-hover:scale-105"
+                      style={{ background: `color-mix(in srgb, ${meta.color} 16%, transparent)`, color: meta.color }}
                     >
-                      <f.icon size={12} /> {f.label}
-                    </button>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+                      <Icon size={18} />
+                    </span>
+                    <span
+                      className="inline-flex items-center rounded-md px-2 py-0.5 text-[10.5px] font-semibold"
+                      style={{ background: `color-mix(in srgb, ${meta.color} 12%, transparent)`, color: meta.color }}
+                    >
+                      {meta.label}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-[14px] font-semibold text-fg">{r.nombre}</p>
+                  <p className="mt-0.5 flex items-center gap-1.5 text-[11.5px] text-faint">
+                    <Clock size={12} /> {r.fecha}
+                  </p>
+                  <div className="mt-3 flex items-baseline gap-1.5">
+                    <span className="font-display text-[20px] leading-none font-semibold tabular text-fg">{r.registros}</span>
+                    <span className="text-[11px] text-faint">registros</span>
+                  </div>
+                  <div className="mt-auto flex gap-1.5 border-t border-line-soft pt-3">
+                    {formatos.map((f) => (
+                      <button
+                        key={f.id}
+                        onClick={() => exportarGuardado(r.nombre, f.id, f.label)}
+                        className="flex flex-1 items-center justify-center gap-1 rounded-md bg-white/[0.05] py-1.5 text-[11px] text-muted transition-colors hover:bg-white/[0.1] hover:text-fg"
+                      >
+                        <f.icon size={12} /> {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </Card>
+              </motion.div>
+            )
+          })}
         </motion.div>
       </div>
     </div>

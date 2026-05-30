@@ -1,3 +1,5 @@
+import { activos, type Country } from './employees'
+
 export const acciones = ['Ver', 'Crear', 'Editar', 'Aprobar', 'Eliminar'] as const
 export type Accion = (typeof acciones)[number]
 
@@ -95,3 +97,38 @@ export const fieldPermissions: FieldPermission[] = [
   { campo: 'Documentos de identidad', modulo: 'Empleados', roles: ['analista', 'global'] },
   { campo: 'Denuncias anónimas', modulo: 'Encuestas', roles: ['analista', 'global'] },
 ]
+
+/* ─── Auditoría: usuarios con permisos erróneos (el problema que motiva el rebuild) ─── */
+export interface UsuarioPermisoErroneo {
+  id: string
+  nombre: string
+  iniciales: string
+  avatar: string
+  pais: Country
+  departamento: string
+  puesto: string
+  rolActual: string
+  rolSugerido: string
+}
+
+/** Sugiere el rol de mínimo privilegio según el puesto/área del colaborador. */
+function sugerirRol(puesto: string, departamento: string): string {
+  if (/Jefe|Líder/.test(puesto)) return 'Jefe de Área'
+  if (/Supervisor|Coordinador|KAM/.test(puesto)) return 'Supervisor'
+  if (departamento === 'Recursos Humanos') return 'Analista de RR.HH.'
+  if (/Tesorería|Finanzas|Contable/.test(puesto)) return 'Admin de Nómina'
+  return 'Empleado'
+}
+
+/** Los 41 usuarios que hoy arrastran "Administrador Global" sin necesitarlo. */
+export const usuariosPermisosErroneos: UsuarioPermisoErroneo[] = activos.slice(0, 41).map((e) => ({
+  id: e.id,
+  nombre: e.nombre,
+  iniciales: e.iniciales,
+  avatar: e.avatar,
+  pais: e.pais,
+  departamento: e.departamento,
+  puesto: e.puesto,
+  rolActual: 'Administrador Global',
+  rolSugerido: sugerirRol(e.puesto, e.departamento),
+}))

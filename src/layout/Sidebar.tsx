@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { ChevronsLeftRight, ChevronsRightLeft, ChevronDown, X } from 'lucide-react'
@@ -59,7 +60,7 @@ function NavContent({
       </div>
 
       {/* Navigation */}
-      <nav className="mt-4 flex-1 space-y-5 overflow-y-auto px-3 pb-4">
+      <nav className="mt-4 flex-1 space-y-5 overflow-y-auto overscroll-contain px-3 pb-4">
         {navGroups.map((group) => (
           <div key={group.title}>
             {!collapsed && (
@@ -160,6 +161,17 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
 
 /** Sidebar off-canvas — móvil y tablet (< lg) */
 export function MobileSidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
+  // Bloquea el scroll del body mientras el drawer está abierto (evita el "glitch"
+  // de scroll del fondo en móvil).
+  useEffect(() => {
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [open])
+
   return (
     <AnimatePresence>
       {open && (
