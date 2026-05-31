@@ -11,6 +11,7 @@ import { CountryTag } from '@/components/ui/CountryTag'
 import { Flag } from '@/components/ui/Flag'
 import { DataTable } from '@/components/ui/DataTable'
 import { ProgressBar } from '@/components/ui/ProgressBar'
+import { CostDonut, COST_COLORS } from '@/components/charts/CostDonut'
 import { container, fadeUp } from '@/lib/motion'
 import { cn } from '@/lib/cn'
 import { fmtMoneyUSD } from '@/lib/format'
@@ -49,7 +50,7 @@ export function Nomina() {
     }
     return [...map.values()].sort((a, b) => b.total - a.total)
   }, [ccCountry])
-  const maxCC = Math.max(...costByCenter.map((c) => c.total), 1)
+  const grandCC = costByCenter.reduce((s, c) => s + c.total, 0) || 1
 
   const columns = useMemo<ColumnDef<PayrollRow, any>[]>(
     () => [
@@ -147,77 +148,88 @@ export function Nomina() {
           </Card>
         </div>
 
-        {/* Table */}
+        {/* Por centro de costo */}
         <div className="lg:col-span-2">
-          <Card>
-            <div className="flex flex-wrap items-center gap-3 border-b border-line p-4">
-              <div className="flex min-w-[200px] flex-1 items-center gap-2.5 rounded-lg border border-line bg-panel px-3 py-2 focus-within:border-white/20">
-                <Search size={16} className="text-faint" />
-                <input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Buscar en la planilla…"
-                  className="w-full bg-transparent text-[13.5px] text-fg placeholder:text-faint focus:outline-none"
-                />
+          <Card className="h-full">
+            <CardHeader
+              title="Costo por centro de costo"
+              subtitle="Participación de cada centro de costo en la nómina (neto · USD)"
+              action={
+                <span className="hidden items-center gap-1.5 text-[11px] text-faint sm:flex">
+                  <Building2 size={14} /> {ccCountry === 'Todos' ? '4 países' : ccCountry}
+                </span>
+              }
+            />
+            <div className="space-y-5 p-5 pt-4">
+              {/* Filtro por país */}
+              <div className="flex flex-wrap gap-1.5">
+                <CcChip activo={ccCountry === 'Todos'} onClick={() => setCcCountry('Todos')}>
+                  Todos los países
+                </CcChip>
+                {payrollByCountry.map((c) => (
+                  <CcChip key={c.pais} activo={ccCountry === c.pais} onClick={() => setCcCountry(c.pais)}>
+                    <Flag pais={c.pais} size={14} /> {c.pais}
+                  </CcChip>
+                ))}
               </div>
-              <div className="flex items-center gap-1 text-[13px] text-muted">
-                <button
-                  onClick={() => toast.info('Período anterior', 'Cargando planilla de abril 2026…')}
-                  className="flex size-8 items-center justify-center rounded-lg border border-line hover:bg-white/[0.04]"
-                >
-                  <ChevronLeft size={15} />
-                </button>
-                <span className="px-1 font-mono">Mayo 2026</span>
-                <button
-                  onClick={() => toast.warning('Período no disponible', 'Junio 2026 aún no está cerrado.')}
-                  className="flex size-8 items-center justify-center rounded-lg border border-line hover:bg-white/[0.04]"
-                >
-                  <ChevronRight size={15} />
-                </button>
+
+              {/* Donut + leyenda */}
+              <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-[244px_1fr]">
+                <CostDonut data={costByCenter} hidden={!canSee} height={236} />
+
+                <div className="grid grid-cols-1 gap-x-8 gap-y-2.5 sm:grid-cols-2">
+                  {costByCenter.map((c, i) => (
+                    <div key={c.cc} className="flex items-center gap-2.5">
+                      <span className="size-2.5 shrink-0 rounded-full" style={{ background: COST_COLORS[i % COST_COLORS.length] }} />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-[12.5px] font-medium text-fg">{c.depto}</p>
+                        <p className="font-mono text-[10px] text-faint">
+                          {c.cc} · {c.headcount} pers.
+                        </p>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <p className="font-mono text-[12.5px] font-medium text-fg">{canSee ? fmtMoneyUSD(c.total) : '••••••'}</p>
+                        <p className="font-mono text-[10px] text-faint">{Math.round((c.total / grandCC) * 100)}%</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="max-h-[520px] overflow-y-auto">
-              <DataTable columns={columns} data={payroll} globalFilter={search} minWidth={720} />
             </div>
           </Card>
         </div>
       </div>
 
-      {/* Por centro de costo */}
+      {/* Planilla detallada */}
       <Card>
-        <CardHeader
-          title="Costo por centro de costo"
-          subtitle="Neto del período por centro de costo (USD) — filtra por país"
-          action={<Building2 size={16} className="text-faint" />}
-        />
-        <div className="space-y-4 p-5 pt-4">
-          <div className="flex flex-wrap gap-1.5">
-            <CcChip activo={ccCountry === 'Todos'} onClick={() => setCcCountry('Todos')}>
-              Todos los países
-            </CcChip>
-            {payrollByCountry.map((c) => (
-              <CcChip key={c.pais} activo={ccCountry === c.pais} onClick={() => setCcCountry(c.pais)}>
-                <Flag pais={c.pais} size={14} /> {c.pais}
-              </CcChip>
-            ))}
+        <div className="flex flex-wrap items-center gap-3 border-b border-line p-4">
+          <div className="flex min-w-[200px] flex-1 items-center gap-2.5 rounded-lg border border-line bg-panel px-3 py-2 focus-within:border-white/20">
+            <Search size={16} className="text-faint" />
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar en la planilla…"
+              className="w-full bg-transparent text-[13.5px] text-fg placeholder:text-faint focus:outline-none"
+            />
           </div>
-
-          <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-            {costByCenter.map((c, i) => (
-              <div key={c.cc}>
-                <div className="mb-1.5 flex items-center justify-between gap-2">
-                  <span className="flex min-w-0 items-baseline gap-1.5">
-                    <span className="truncate text-[13px] text-muted">{c.depto}</span>
-                    <span className="shrink-0 font-mono text-[10px] text-faint">{c.cc} · {c.headcount}</span>
-                  </span>
-                  <span className="shrink-0 font-mono text-[12.5px] font-medium text-fg">
-                    {canSee ? fmtMoneyUSD(c.total) : '••••••'}
-                  </span>
-                </div>
-                <ProgressBar value={(c.total / maxCC) * 100} delay={i * 0.04} />
-              </div>
-            ))}
+          <div className="flex items-center gap-1 text-[13px] text-muted">
+            <button
+              onClick={() => toast.info('Período anterior', 'Cargando planilla de abril 2026…')}
+              className="flex size-8 items-center justify-center rounded-lg border border-line hover:bg-white/[0.04]"
+            >
+              <ChevronLeft size={15} />
+            </button>
+            <span className="px-1 font-mono">Mayo 2026</span>
+            <button
+              onClick={() => toast.warning('Período no disponible', 'Junio 2026 aún no está cerrado.')}
+              className="flex size-8 items-center justify-center rounded-lg border border-line hover:bg-white/[0.04]"
+            >
+              <ChevronRight size={15} />
+            </button>
           </div>
+        </div>
+        <div className="max-h-[520px] overflow-y-auto">
+          <DataTable columns={columns} data={payroll} globalFilter={search} minWidth={720} />
         </div>
       </Card>
     </div>
