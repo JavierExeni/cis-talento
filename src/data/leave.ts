@@ -1,5 +1,5 @@
 import type { Country } from './employees'
-import { employees } from './employees'
+import { employees, activos } from './employees'
 
 export interface LeaveType {
   nombre: string
@@ -94,3 +94,57 @@ function buildRequests(): LeaveRequest[] {
 export const leaveRequests: LeaveRequest[] = buildRequests()
 
 export const pendingRequests = leaveRequests.filter((r) => r.estado === 'Pendiente')
+
+/** Tipos de permiso (genéricos) usados en el historial y los filtros. */
+export const leaveTypes = [
+  'Vacaciones',
+  'Enfermedad',
+  'Permiso personal',
+  'Matrimonio',
+  'Cumpleaños',
+  'Home Office',
+  'Día administrativo',
+]
+
+/** Meses con actividad en el historial (2026). */
+export const leaveMonths = [
+  { value: 1, label: 'Enero' },
+  { value: 2, label: 'Febrero' },
+  { value: 3, label: 'Marzo' },
+  { value: 4, label: 'Abril' },
+  { value: 5, label: 'Mayo' },
+]
+
+/**
+ * Historial de permisos ya resueltos — sirve para consultar, por ejemplo,
+ * "el historial de vacaciones de X" o "el total de permisos de enfermedad
+ * en mayo en Bolivia", sin tener que descargar un reporte.
+ */
+function buildHistory(): LeaveRequest[] {
+  const estados: LeaveStatus[] = ['Aprobado', 'Aprobado', 'Aprobado', 'Aprobado', 'Rechazado']
+  const out: LeaveRequest[] = []
+  for (let i = 0; i < 120; i++) {
+    const e = activos[(i * 13 + 7) % activos.length]
+    const tipo = leaveTypes[i % leaveTypes.length]
+    const dias = [1, 1, 2, 3, 5, 7, 10, 15][i % 8]
+    const month = 1 + (i % 5)
+    const d1 = 2 + ((i * 5) % 24)
+    out.push({
+      id: `LH-${3000 + i}`,
+      empleadoId: e.id,
+      empleado: e.nombre,
+      iniciales: e.iniciales,
+      avatar: e.avatar,
+      pais: e.pais,
+      tipo,
+      desde: `2026-${String(month).padStart(2, '0')}-${String(d1).padStart(2, '0')}`,
+      hasta: `2026-${String(month).padStart(2, '0')}-${String(Math.min(d1 + dias, 28)).padStart(2, '0')}`,
+      dias,
+      saldo: 0,
+      estado: estados[i % estados.length],
+    })
+  }
+  return out
+}
+
+export const leaveHistory: LeaveRequest[] = buildHistory()
