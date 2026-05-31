@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { ColumnDef } from '@tanstack/react-table'
 import { motion } from 'motion/react'
-import { Search, Download, Wallet, TrendingUp, Users, Lock, Eye, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Search, Wallet, TrendingUp, Users, Lock, Eye, ChevronLeft, ChevronRight, Building2 } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { Avatar } from '@/components/ui/Avatar'
@@ -15,13 +15,41 @@ import { container, fadeUp } from '@/lib/motion'
 import { cn } from '@/lib/cn'
 import { fmtMoneyUSD } from '@/lib/format'
 import { payroll, payrollByCountry, payrollTotal, payrollBrutoTotal, payrollBonosTotal, type PayrollRow } from '@/data/payroll'
+import { type Country } from '@/data/employees'
+
+/** Código de centro de costo → departamento, para etiquetar la vista consolidada. */
+const ccDepto: Record<string, string> = {
+  'BO-DSP': 'Comercial',
+  'OPS-CTR': 'Operaciones',
+  'ADM-FIN': 'Administración & Finanzas',
+  'TI-DEV': 'Tecnología',
+  'RH-GEN': 'Recursos Humanos',
+  'MKT-BR': 'Marketing',
+  'CX-CALL': 'Atención al Cliente',
+}
 
 export function Nomina() {
   const toast = useToast()
   const [canSee, setCanSee] = useState(true)
   const [search, setSearch] = useState('')
+  const [ccCountry, setCcCountry] = useState<'Todos' | Country>('Todos')
 
   const maxCountry = Math.max(...payrollByCountry.map((c) => c.total))
+
+  // Agregado por centro de costo (consolidando el prefijo de país), filtrable por país.
+  const costByCenter = useMemo(() => {
+    const rows = ccCountry === 'Todos' ? payroll : payroll.filter((r) => r.pais === ccCountry)
+    const map = new Map<string, { cc: string; total: number; headcount: number; depto: string }>()
+    for (const r of rows) {
+      const cc = r.centroCosto.replace(/^(BO|CL|EC|AR)-/, '')
+      const cur = map.get(cc) ?? { cc, total: 0, headcount: 0, depto: ccDepto[cc] ?? cc }
+      cur.total += r.neto
+      cur.headcount += 1
+      map.set(cc, cur)
+    }
+    return [...map.values()].sort((a, b) => b.total - a.total)
+  }, [ccCountry])
+  const maxCC = Math.max(...costByCenter.map((c) => c.total), 1)
 
   const columns = useMemo<ColumnDef<PayrollRow, any>[]>(
     () => [
@@ -154,7 +182,59 @@ export function Nomina() {
           </Card>
         </div>
       </div>
+
+      {/* Por centro de costo */}
+      <Card>
+        <CardHeader
+          title="Costo por centro de costo"
+          subtitle="Neto del período por centro de costo (USD) — filtra por país"
+          action={<Building2 size={16} className="text-faint" />}
+        />
+        <div className="space-y-4 p-5 pt-4">
+          <div className="flex flex-wrap gap-1.5">
+            <CcChip activo={ccCountry === 'Todos'} onClick={() => setCcCountry('Todos')}>
+              Todos los países
+            </CcChip>
+            {payrollByCountry.map((c) => (
+              <CcChip key={c.pais} activo={ccCountry === c.pais} onClick={() => setCcCountry(c.pais)}>
+                <Flag pais={c.pais} size={14} /> {c.pais}
+              </CcChip>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
+            {costByCenter.map((c, i) => (
+              <div key={c.cc}>
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <span className="flex min-w-0 items-baseline gap-1.5">
+                    <span className="truncate text-[13px] text-muted">{c.depto}</span>
+                    <span className="shrink-0 font-mono text-[10px] text-faint">{c.cc} · {c.headcount}</span>
+                  </span>
+                  <span className="shrink-0 font-mono text-[12.5px] font-medium text-fg">
+                    {canSee ? fmtMoneyUSD(c.total) : '••••••'}
+                  </span>
+                </div>
+                <ProgressBar value={(c.total / maxCC) * 100} delay={i * 0.04} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </Card>
     </div>
+  )
+}
+
+function CcChip({ activo, onClick, children }: { activo: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-[12.5px] font-medium transition-colors',
+        activo ? 'border-accent/40 bg-accent-soft text-accent' : 'border-line text-muted hover:border-white/20 hover:text-fg',
+      )}
+    >
+      {children}
+    </button>
   )
 }
 
